@@ -50,7 +50,7 @@ class Runner:
         path.reverse()
         return path
 
-    def print_map(self, path):
+    def print_maze(self, path):
         for step in path:
             self.maze[step[0]] = self.maze[step[0]][:step[1]] + \
                 '.' + self.maze[step[0]][step[1] + 1:]
@@ -115,4 +115,4 @@ lava_map2 = [
 ]
 
 runner = Runner(lava_map1, 14, 16)
-runner.print_map(runner.find_treasure())
+runner.print_maze(runner.find_treasure())
