@@ -10,6 +10,7 @@ Author: Markus Tarn
 Used sources: http://lambda.ee/wiki/Iti0210lab42
 """
 from random import randint
+import time
 
 def hill_climbing(pos):
     curr_value = pos.get_value(pos.queens)
@@ -18,7 +19,7 @@ def hill_climbing(pos):
     while True:
         move, new_value = pos.best_move()
         if new_value >= curr_value:
-            if new_value == curr_value and tries > 0:
+            if new_value == curr_value and new_value != 0 and tries > 0:
                 # use one try to generate random mutation
                 tries -= 1
                 pos.queens.append((randint(1, pos.N - 1), pos.queens.pop()[1]))
@@ -104,10 +105,14 @@ class NQPosition:
 
 
 """ ...................................... Initialize positions here ................................. """
-pos = NQPosition(8) # test with the tiny 4x4 board first
+start = time.time()
+pos = NQPosition(20) # test with the tiny 4x4 board first
+print("Number of queens", pos.N)
 print("Initial position value", pos.get_value(pos.queens))
 best_pos, best_value = hill_climbing(pos)
 print("Final value", best_value)
-print("Final map")
-pos.print_board()
+# print("Final map")
+# pos.print_board()
+end = time.time()
+print(end - start)
 # if best_value is 0, we solved the problem
