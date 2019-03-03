@@ -4,6 +4,9 @@ Instructions:
     1. Create Position object with (Number of tiles in row) as argument.
     2. Run the hill_climbing method with Position object as argument.
 
+Default number of possible mutations is 100, if you want to change it, then enter it
+as second optional argument for hill_climbing(queens, mutations).
+
 Ideal solution/value would be 0. This means that there are no conflicts. (+1 for each conflict)
 
 Author: Markus Tarn
@@ -12,34 +15,33 @@ Used sources: http://lambda.ee/wiki/Iti0210lab42
 from random import randint
 import time
 
-def hill_climbing(pos):
-    curr_value = pos.get_value(pos.queens)
-    tries = 100
+def hill_climbing(position, tries = 100):
+    # Use hill climing method to clime towards better position
+    start = time.time()
+    current_value = position.get_value(position.queens)
 
     while True:
-        move, new_value = pos.best_move()
-        if new_value >= curr_value:
-            if new_value == curr_value and new_value != 0 and tries > 0:
-                # use one try to generate random mutation
-                tries -= 1
-                pos.queens.append((randint(1, pos.N - 1), pos.queens.pop()[1]))
-                move, new_value = pos.best_move()
-            else:
-                # finish
-                return pos, curr_value
+        move, new_value = position.best_move()
+        if new_value == current_value and new_value != 0 and tries > 0:
+            tries -= 1
+            position.queens.append((randint(1, position.N - 1), position.queens.pop()[1]))
+            move, new_value = position.best_move()
+        elif new_value >= current_value:
+            print("Time spent:", round(time.time() - start), "seconds")
+            return current_value
         else:
-            # position improves, keep searching
-            curr_value = new_value
-            pos.make_move(move)
+            current_value = new_value
+            position.queens = move
 
 class NQPosition:
     def __init__(self, N):
         self.N = N
         self.queens = self.add_queens()
-        self.print_board()
+        print("Number of queens:", N)
+        print("Initial position value:", self.get_value(self.queens))
 
     def get_value(self, queens):
-        # calculate number of conflicts (queens that can capture each other)
+        # Calculate number of conflicts (queens that can capture each other)
         conflicts = set()
         for queen in queens:
             for other_queen in queens:
@@ -57,11 +59,8 @@ class NQPosition:
         self.conflicts = conflicts
         return len(conflicts)
 
-    def make_move(self, move):
-        # actually execute a move (change the board)
-        self.queens = move
-
     def best_move(self):
+        # See which queen you can move to get new best value
         queens = self.queens.copy()
         best_value = self.get_value(queens)
         best_queen = queens[0]
@@ -105,14 +104,7 @@ class NQPosition:
 
 
 """ ...................................... Initialize positions here ................................. """
-start = time.time()
-pos = NQPosition(20) # test with the tiny 4x4 board first
-print("Number of queens", pos.N)
-print("Initial position value", pos.get_value(pos.queens))
-best_pos, best_value = hill_climbing(pos)
-print("Final value", best_value)
-# print("Final map")
-# pos.print_board()
-end = time.time()
-print(end - start)
-# if best_value is 0, we solved the problem
+position = NQPosition(10)
+print("Final value:", hill_climbing(position))
+print("Final board:")
+position.print_board()
