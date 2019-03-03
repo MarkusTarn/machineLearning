@@ -6,10 +6,10 @@ Purpose for this lab was to familiarize with minimizing hill climbing algorithm.
 
 I wrote an algorithm for moving queens on chessboard so that no two queens share line of sight.
 
-* Generating queens was done pseudo-randomly: every column would get atleast one queen placed on random row. 
+* Generating queens was done pseudo-randomly: every column would get at least one queen placed on random row. 
 Queens are just (`x`, `y`) coordinates saved as tuples and stored in a list.
 
-* Hill climbing algorithm will evaluate the board based on number of conflicts(in this case).
+* Hill climbing algorithm will evaluate the board based on number of conflicts (in our case).
 Each conflict (pair of queens that share line of sight) will add +1 to position value.
 It will then move queens one-by-one to the tile with minimum value (least conflicts).
 
