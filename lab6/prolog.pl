@@ -13,9 +13,9 @@ man(francesco).
 man(vambola).
 man(hose).
 
-lives(marcus, pompej).
-lives(francesco, pompej).
-lives(vambola, pompei).
+lives(marcus, pompeii).
+lives(francesco, pompeii).
+lives(vambola, pompeii).
 lives(hose, tallinn).
 
 born(marcus, 40).
@@ -32,7 +32,7 @@ mortal(Person) :-
 deceased_by_volcano(Person) :-
     mortal(Person),
     born(Person, Year),
-    lives(Person, pompej),
+    lives(Person, pompeii),
     Year<79.
 
 deceased_by_age(Person) :-
